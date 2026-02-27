@@ -1,4 +1,7 @@
 ## kdbらしきなにか
+
+[kdbらしきなにか](https://iter09.github.io/rakutannman/)
+
 公式kdbとkdbっぽいなにか/kdbもどきをリスペクトしております。
 筑波大学の授業データをもとにした非公式の授業検索サイトです。
 授業データは筑波大学kdbからダウンロードしたものを使用しています(2026年2月時点)。
@@ -24,4 +27,4 @@ Tailwind CSS
 
 Google FontsとMaterial Icons
 
-GitHub Pagesにデプロイ
+GitHub Pagesにデプロイ [https://iter09.github.io/rakutannman/](https://iter09.github.io/rakutannman/)
