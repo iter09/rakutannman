@@ -1,0 +1,54 @@
+/* Tailwind CSS v4 の読み込み */
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-paper: #fdfdfd;
+  --color-ink: #111111;
+  --color-ink-light: #666666;
+  --color-entry-bg: #f9f8f4;
+  --color-accent: #000000;
+  --color-highlight: #eeeeee;
+
+  /* Fonts */
+  --font-display: "Lexend", sans-serif;
+  --font-serif: "Playfair Display", serif;
+
+  /* Box Shadows */
+  --shadow-hard: 4px 4px 0px 0px #000000;
+}
+
+/* 背景のノイズ加工（SVG） */
+.bg-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* スクロールバーを隠すユーティリティ */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* スクロールバー全体のデザイン（Webkitブラウザ用） */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+::-webkit-scrollbar-thumb {
+  background: #000; 
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #333; 
+}
+
+/* Vueのトランジション用 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
