@@ -50,7 +50,7 @@ const loadBookmarks = () => {
   } catch (e) {
     console.error('Failed to load bookmarks from localStorage', e)
   }
-  return [{ id: Date.now(), name: 'GBから', targetCredits: '', courses: [] }]
+  return [{ id: Date.now(), name: '共通基礎', targetCredits: '', courses: [] }]
 }
 
 const bookmarkGroups = ref(loadBookmarks())
