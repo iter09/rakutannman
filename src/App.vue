@@ -10,9 +10,12 @@ import InfoPanel from './components/InfoPanel.vue'
 
 import { useCourseSearch } from './composables/useCourseSearch'
 
+// now v1
+
 const { 
   loadData, 
   filteredCourses, 
+  allCourses,
   masters,
   searchCourses, 
   isLoading, 
@@ -52,10 +55,45 @@ const loadBookmarks = () => {
 
 const bookmarkGroups = ref(loadBookmarks())
 
-watch(bookmarkGroups, (newVal) => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(newVal))
-}, { deep: true })
+const hydrateBookmarks = () => {
+  if (!allCourses.value || allCourses.value.length === 0) return
 
+  bookmarkGroups.value.forEach(group => {
+    group.courses = group.courses.map(savedCourse => {
+      const row = allCourses.value.find(r => r[0] === savedCourse.course_number)
+      
+      if (row) {
+        return {
+          id: row[0],
+          course_number: row[0],
+          title: row[1],
+          credits: row[2],
+          display_standard_years: row[3],
+          display_terms: row[4],
+          display_periods: row[5],
+          display_class_formats: row[6],
+          search_term_bit: row[8],
+          search_period_low: row[9],
+          search_period_high: row[10],
+          // remarks: row[12] 備考
+        }
+      }
+      return savedCourse
+    })
+  })
+}
+
+watch(bookmarkGroups, (newVal) => {
+  // course_number と title だけ
+  const dataToSave = newVal.map(group => ({
+    ...group,
+    courses: group.courses.map(c => ({
+      course_number: c.course_number,
+      title: c.title
+    }))
+  }))
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave))
+}, { deep: true })
 
 // --- データ変換---
 const paginatedCourses = computed(() => {
@@ -101,8 +139,9 @@ const dummyNextUrl = computed(() => hasNext.value ? 'NEXT' : null)
 const dummyPrevUrl = computed(() => hasPrev.value ? 'PREV' : null)
 
 
-onMounted(() => {
-  loadData()
+onMounted(async () => {
+  await loadData() 
+  hydrateBookmarks() 
 })
 
 // 検索実行
@@ -166,7 +205,7 @@ const updateGroupTarget = (id, val) => {
 const toggleCourseInGroup = (course, groupId) => {
   const group = bookmarkGroups.value.find(g => g.id === groupId)
   if (!group) return
-  const idx = group.courses.findIndex(c => c.id === course.id)
+  const idx = group.courses.findIndex(c => c.course_number === course.course_number)
   if (idx === -1) {
     group.courses.push(course)
   } else {
@@ -174,16 +213,16 @@ const toggleCourseInGroup = (course, groupId) => {
   }
 }
 
-const removeCourseFromGroup = (courseId, groupId) => {
+const removeCourseFromGroup = (courseNumber, groupId) => {
   const group = bookmarkGroups.value.find(g => g.id === groupId)
   if (group) {
-    const idx = group.courses.findIndex(c => c.id === courseId)
+    const idx = group.courses.findIndex(c => c.course_number === courseNumber)
     if (idx !== -1) group.courses.splice(idx, 1)
   }
 }
 
 const resetAllBookmarks = () => {
-  bookmarkGroups.value = [{ id: Date.now(), name: 'GAから', targetCredits: '', courses: [] }]
+  bookmarkGroups.value = [{ id: Date.now(), name: '基礎共通', targetCredits: '', courses: [] }]
 }
 
 </script>

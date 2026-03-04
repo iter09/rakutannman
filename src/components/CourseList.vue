@@ -41,7 +41,7 @@ onUnmounted(() => document.removeEventListener('click', closeDropdown))
 // ヘルパー
 const isInGroup = (course, groupId) => {
   const group = props.bookmarkGroups.find(g => g.id === groupId)
-  return group && group.courses.some(c => c.id === course.id)
+  return group && group.courses.some(c => c.course_number === course.course_number)
 }
 </script>
 

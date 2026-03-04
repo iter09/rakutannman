@@ -1,10 +1,10 @@
-## kdbらしきなにか
+## kdbらしき
 
-[kdbらしきなにか](https://iter09.github.io/rakutannman/)
+[kdbらしき](https://iter09.github.io/rakutannman)
 
 公式kdbとkdbっぽいなにか/kdbもどきをリスペクトしております。
 筑波大学の授業データをもとにした非公式の授業検索サイトです。
-授業データは筑波大学kdbからダウンロードしたものを使用しています(2026年2月時点)。
+授業データは筑波大学kdbからダウンロードしたものを使用しています。(2026年3月3日時点)
 
 必ず公式kdbとシラバスで正確な情報を確認してください。
 
@@ -27,4 +27,6 @@ Tailwind CSS
 
 Google FontsとMaterial Icons
 
-GitHub Pagesにデプロイ [https://iter09.github.io/rakutannman/](https://iter09.github.io/rakutannman/)
+GitHub Pagesにデプロイ [https://iter09.github.io/rakutannman](https://iter09.github.io/rakutannman)
+
+お問い合わせ用Googleフォーム [https://forms.gle/vZuYVd2gw2PMTgRy6](https://forms.gle/vZuYVd2gw2PMTgRy6)

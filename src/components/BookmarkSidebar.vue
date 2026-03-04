@@ -121,7 +121,7 @@ const totalAllCredits = computed(() => {
               </div>
 
               <button 
-                @click="$emit('remove-course', course.id, group.id)"
+                @click="$emit('remove-course', course.course_number, group.id)"
                 class="ml-2 text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 border border-black bg-black text-white hover:bg-white hover:text-black transition-colors shrink-0"
               >
                 Drop
