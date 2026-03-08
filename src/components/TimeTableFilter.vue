@@ -75,11 +75,19 @@ const toggle = (value) => {
     </button>
 
     <button
+      @click="toggle('NT')"
+      class="col-start-11 col-span-2 row-start-3 row-span-2 flex items-center justify-center text-[10px] font-bold leading-none transition-colors border border-transparent"
+      :class="isActive('NT') ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-200'"
+    >
+      NT
+    </button>
+
+    <button
       @click="$emit('reset-all')"
-      class="col-start-7 col-span-6 row-start-3 row-span-2 bg-gray-100 flex items-center justify-center text-[10px] text-red-600 font-bold border-t border-b border-gray-200 hover:bg-red-50 hover:text-red-700 transition-colors uppercase tracking-widest gap-1"
+      class="col-start-7 col-span-4 row-start-3 row-span-2 bg-gray-100 flex items-center justify-center text-[10px] text-red-600 font-bold border-t border-b border-gray-200 hover:bg-red-50 hover:text-red-700 transition-colors uppercase tracking-widest gap-1"
     >
       <span class="material-symbols-outlined text-[14px]">refresh</span>
-      Reset Filter
+      Reset
     </button>
 
   </div>
