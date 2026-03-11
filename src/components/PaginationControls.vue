@@ -39,12 +39,12 @@ const rangeEnd = computed(() => {
 </script>
 
 <template>
-  <div class="p-1 border-t-2 border-black bg-gray-200 flex justify-between items-center shrink-0" v-if="!loading">
+  <div class="px-1 py-1 border-t-2 border-black bg-gray-200 flex justify-between items-center shrink-0" v-if="!loading">
     
     <button 
       @click="onPrev" 
       :disabled="!prevUrl"
-      class="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest border border-black px-3 py-1.5 transition-colors bg-white hover:bg-black hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-black"
+      class="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest border border-black px-3 py-0.5 transition-colors bg-white hover:bg-black hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-black"
     >
       <span class="material-symbols-outlined text-[14px]">arrow_back</span>
   
@@ -53,11 +53,14 @@ const rangeEnd = computed(() => {
     <span class="text-[14px] font-mono font-bold text-gray-600 uppercase">
       {{ rangeStart }}-{{ rangeEnd }} / {{ totalCount }}
     </span>
+    <span class="text-[12px] font-mono font-bold text-gray-500 uppercase">
+      授業データは2025年度のものです
+    </span>
     
     <button 
       @click="onNext" 
       :disabled="!nextUrl"
-      class="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest border border-black px-3 py-1.5 transition-colors bg-white hover:bg-black hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-black"
+      class="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest border border-black px-3 py-0.5 transition-colors bg-white hover:bg-black hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-black"
     >
     
       <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
