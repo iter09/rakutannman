@@ -10,7 +10,7 @@ import InfoPanel from './components/InfoPanel.vue'
 
 import { useCourseSearch } from './composables/useCourseSearch'
 
-// now v1
+// now v4
 
 const { 
   loadData, 
@@ -111,6 +111,7 @@ const paginatedCourses = computed(() => {
     display_terms: row[4],
     display_periods: row[5],
     display_class_formats: row[6],
+    remarks: row[12],
   }))
 })
 
@@ -222,7 +223,7 @@ const removeCourseFromGroup = (courseNumber, groupId) => {
 }
 
 const resetAllBookmarks = () => {
-  bookmarkGroups.value = [{ id: Date.now(), name: '基礎共通', targetCredits: '', courses: [] }]
+  bookmarkGroups.value = [{ id: Date.now(), name: '共通基礎', targetCredits: '', courses: [] }]
 }
 
 </script>
@@ -242,7 +243,7 @@ const resetAllBookmarks = () => {
 
     <main class="flex-1 flex overflow-hidden p-4 gap-4 max-w-[1550px] w-full mx-auto relative">
       
-      <div class="w-full md:w-[45%] flex flex-col h-full border-2 border-black bg-white shadow-hard relative">
+      <div class="w-full md:w-[60%] flex flex-col h-full border-2 border-black bg-white shadow-hard relative">
         <div ref="courseListContainer" class="flex-1 overflow-y-auto p-3 space-y-2 scroll-smooth bg-gray-50">
           <CourseList 
             :courses="paginatedCourses" 
@@ -266,7 +267,7 @@ const resetAllBookmarks = () => {
         />
       </div>
 
-      <div class="hidden md:flex w-[45%] h-full">
+      <div class="hidden md:flex w-[40%] h-full">
         <BookmarkSidebar 
           :bookmarkGroups="bookmarkGroups" 
           @create-group="createGroup"

@@ -13,6 +13,7 @@ const COL_BIT_TERM = 8    // 検索用: 学期 (Bit)
 const COL_BIT_P_LOW = 9   // 検索用: 曜時限Low (Bit)
 const COL_BIT_P_HIGH = 10 // 検索用: 曜時限High (Bit)
 const COL_BIT_FMT = 11    // 検索用: 授業形式 (Bit)
+const COL_REMARKS = 12    // 備考
 
 // 曜時限ビットフラグ境界線
 const PERIOD_BOUNDARY = 30

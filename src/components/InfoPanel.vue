@@ -24,7 +24,7 @@ const props = defineProps({
           <p>
             非公式の、筑波大学の授業検索サイトです。<br>
             <strong>必ず<a href="https://kdb.tsukuba.ac.jp" target="_blank" rel="noopener noreferrer" class="underline">公式kdb</a>で正確な情報を参照してください。</strong><br>
-            授業データは2026年3月3日に筑波大学kdbからcsvダウンロードしたものを使用しており、データは2025年度のものです。<br>
+            授業データは2026年4月2日に筑波大学kdbからcsvダウンロードしたものを使用しており、データは2026年度のものです。<br>
             科目名をクリックするとその科目の公式シラバスを別タブで開きます。
           </p>
           <p>

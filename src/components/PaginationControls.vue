@@ -54,7 +54,7 @@ const rangeEnd = computed(() => {
       {{ rangeStart }}-{{ rangeEnd }} / {{ totalCount }}
     </span>
     <span class="text-[12px] font-mono font-bold text-gray-500 uppercase">
-      授業データは2025年度のものです
+      授業データは2026年度のものです
     </span>
     
     <button 

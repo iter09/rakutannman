@@ -14,7 +14,7 @@ const props = defineProps({
 
 const emit = defineEmits(['toggle-course'])
 
-const BASE_SYLLABUS_URL = "https://kdb.tsukuba.ac.jp/syllabi/2025/" 
+const BASE_SYLLABUS_URL = "https://kdb.tsukuba.ac.jp/syllabi/2026/" 
 const getSyllabusUrl = (courseNumber) => {
   return `${BASE_SYLLABUS_URL}${courseNumber}/jpn`
 }
@@ -41,7 +41,7 @@ onUnmounted(() => document.removeEventListener('click', closeDropdown))
 // ヘルパー
 const isInGroup = (course, groupId) => {
   const group = props.bookmarkGroups.find(g => g.id === groupId)
-  return group && group.courses.some(c => c.course_number === course.course_number)
+  return group && group.courses.some(c => c.id === course.id)
 }
 </script>
 
@@ -62,10 +62,10 @@ const isInGroup = (course, groupId) => {
       <div 
         v-for="course in courses" 
         :key="course.id"
-        class="group grid grid-cols-12 gap-2 items-center px-3 py-2 bg-entry-bg border border-gray-400 hover:border-black transition-all cursor-default relative z-0 hover:z-10"
+        class="group grid grid-cols-12 gap-1 items-center px-3 py-1 bg-entry-bg border border-gray-400 hover:border-black transition-all cursor-default relative z-0 hover:z-10"
       >
         
-        <div class="col-span-4 flex flex-col justify-center gap-0.5 overflow-hidden">
+        <div class="col-span-3 flex flex-col justify-center gap-0.5 overflow-hidden">
           <div class="font-mono font-bold text-sm text-black leading-tight truncate">
             {{ course.course_number }}
           </div>
@@ -84,7 +84,7 @@ const isInGroup = (course, groupId) => {
           </a>
         </div>
 
-        <div class="col-span-2 flex flex-col items-end justify-center gap-0.5 border-r-2 border-gray-300 pr-3 h-full">
+        <div class="col-span-1 flex flex-col items-end justify-center gap-0.5 border-r-2 border-gray-300 pr-2 h-full">
           <div class="text-sm font-bold text-black leading-tight whitespace-nowrap">
             {{ course.credits }}単位
           </div>
@@ -94,21 +94,21 @@ const isInGroup = (course, groupId) => {
           </div>
         </div>
         
-        <div class="col-span-2 flex flex-col items-start justify-center gap-0.5 overflow-hidden pl-1">
-          <div class="text-sm font-bold text-black leading-tight truncate w-full text-left" :title="course.display_terms">
+        <div class="col-span-1 flex flex-col items-start justify-center gap-0.5 overflow-hidden pl-1">
+          <div class="text-sm font-bold text-black leading-tight w-full text-left" :title="course.display_terms">
             {{ course.display_terms || '-' }}
           </div>
-          <div class="text-sm font-bold text-black leading-tight truncate w-full text-left" :title="course.display_periods">
+          <div class="text-sm font-bold text-black leading-tight w-full text-left" :title="course.display_periods">
             {{ course.display_periods || '-' }}
           </div>
         </div>
 
-        <div class="col-span-2 flex flex-wrap justify-center content-center gap-1">
+        <div class="col-span-1 flex flex-wrap justify-center content-center gap-1">
           <template v-if="course.display_class_formats">
             <span 
               v-for="(fmt, index) in course.display_class_formats.split(',')" 
               :key="index"
-              class="bg-white border border-gray-300 px-1 rounded-sm text-[10px] font-bold text-black truncate max-w-full text-center"
+              class="bg-white border border-gray-300 px-0 rounded-sm text-[10px] font-bold text-black max-w-full text-center"
             >
               {{ fmt.trim() }}
             </span>
@@ -116,14 +116,18 @@ const isInGroup = (course, groupId) => {
           <span v-else class="text-sm font-bold text-gray-400">-</span>
         </div>
         
-        <div class="col-span-2 flex justify-end relative dropdown-container">
-          
+        <div class="col-span-5 flex items-center overflow-hidden pl-1">
+          <div class="text-[10px] text-gray-900 font-medium w-full" :title="course.remarks || '備考データは現在ありません'">
+            {{ course.remarks || "-" }}
+          </div>
+        </div>
+
+        <div class="col-span-1 flex justify-end relative dropdown-container">
           <button 
             @click.stop="toggleDropdown(course.id)"
-            class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 border border-black transition-colors bg-white hover:bg-black hover:text-white flex items-center gap-1"
+            class="text-[9px] font-bold uppercase tracking-wider px-1 py-1 border border-black transition-colors bg-white hover:bg-black hover:text-white flex items-center justify-center gap-0.5 w-full max-w-[50px]"
           >
             Add
-            <span class="material-symbols-outlined text-[10px]">arrow_drop_down</span>
           </button>
 
           <div 

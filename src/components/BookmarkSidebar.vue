@@ -10,7 +10,7 @@ const props = defineProps({
 
 const emit = defineEmits(['create-group', 'delete-group', 'update-group-name', 'update-group-target', 'remove-course', 'reset-all'])
 
-const BASE_SYLLABUS_URL = "https://kdb.tsukuba.ac.jp/syllabi/2025/" 
+const BASE_SYLLABUS_URL = "https://kdb.tsukuba.ac.jp/syllabi/2026/" 
 const getSyllabusUrl = (courseNumber) => {
   return `${BASE_SYLLABUS_URL}${courseNumber}/jpn`
 }
@@ -97,7 +97,7 @@ const totalAllCredits = computed(() => {
               class="flex items-center justify-between px-2 py-1 bg-entry-bg border border-gray-300 hover:border-black transition-colors gap-2"
             >
               <div class="flex items-center gap-2 overflow-hidden flex-1 min-w-0">
-                <div class="font-mono font-bold text-[15px] text-black shrink-0">
+                <div class="font-mono font-bold text-[14x] text-black shrink-0">
                   {{ course.course_number }}
                 </div>
                 
@@ -105,14 +105,14 @@ const totalAllCredits = computed(() => {
                   :href="getSyllabusUrl(course.course_number)" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-[15px] font-bold truncate shrink-1 min-w-0 px-1 -ml-1 rounded-sm transition-colors hover:bg-black hover:text-white cursor-pointer block" 
+                  class="text-[14px] font-bold truncate shrink-1 min-w-0 px-1 -ml-1 rounded-sm transition-colors hover:bg-black hover:text-white cursor-pointer block" 
                   :title="course.title"
                 >
                   {{ course.title }}
                 </a>
               </div>
               
-              <div class="flex items-center gap-1 shrink-0 text-[12px] font-bold text-gray-600 ml-auto">
+              <div class="flex items-center gap-0 shrink-0 text-[12px] font-bold text-gray-600 ml-auto">
                  <span>{{ course.credits }}単位</span>
                  <span v-if="course.display_standard_years">/{{ course.display_standard_years }}年</span>
                  <span v-if="course.display_terms">/{{ course.display_terms }}</span>
