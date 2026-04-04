@@ -73,7 +73,8 @@ const isInGroup = (course, groupId) => {
         v-for="course in courses" 
         :key="course.id"
         @click="toggleExpand(course.id)"
-        class="group grid grid-cols-12 gap-0 md:gap-1 items-center px-2 md:px-3 py-1 bg-entry-bg border border-gray-400 hover:border-black transition-all cursor-pointer md:cursor-default relative z-0 hover:z-10"
+        class="group grid grid-cols-12 gap-0 md:gap-1 items-center px-2 md:px-3 py-1 bg-entry-bg border border-gray-400 hover:border-black transition-all cursor-pointer md:cursor-default relative"
+        :class="openDropdownId === course.id ? 'z-20' : 'z-0 hover:z-10'"
       >
         
         <div class="col-span-6 md:col-span-3 flex flex-col justify-center gap-0.5 overflow-hidden">

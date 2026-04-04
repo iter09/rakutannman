@@ -228,7 +228,7 @@ const resetAllBookmarks = () => {
 </script>
 
 <template>
-  <div class="h-screen flex flex-col bg-paper text-ink font-display overflow-hidden relative selection:bg-black selection:text-white bg-grain">
+  <div class="h-screen flex flex-col bg-paper text-ink font-display overflow-hidden relative selection:bg-black selection:text-white bg-grain touch-manipulation">
     
     <InfoPanel :isVisible="showInfoPanel" />
 
