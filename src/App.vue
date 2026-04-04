@@ -10,7 +10,7 @@ import InfoPanel from './components/InfoPanel.vue'
 
 import { useCourseSearch } from './composables/useCourseSearch'
 
-// now v4
+// now v5
 
 const { 
   loadData, 
@@ -23,6 +23,8 @@ const {
 } = useCourseSearch()
 
 const showInfoPanel = ref(false)
+
+const activeTab = ref('search')
 
 const filters = reactive({
   standard_years: [],
@@ -75,7 +77,6 @@ const hydrateBookmarks = () => {
           search_term_bit: row[8],
           search_period_low: row[9],
           search_period_high: row[10],
-          // remarks: row[12] 備考
         }
       }
       return savedCourse
@@ -138,7 +139,6 @@ const hasNext = computed(() => (currentPage.value * pageSize) < filteredCourses.
 const hasPrev = computed(() => currentPage.value > 1)
 const dummyNextUrl = computed(() => hasNext.value ? 'NEXT' : null)
 const dummyPrevUrl = computed(() => hasPrev.value ? 'PREV' : null)
-
 
 onMounted(async () => {
   await loadData() 
@@ -225,7 +225,6 @@ const removeCourseFromGroup = (courseNumber, groupId) => {
 const resetAllBookmarks = () => {
   bookmarkGroups.value = [{ id: Date.now(), name: '共通基礎', targetCredits: '', courses: [] }]
 }
-
 </script>
 
 <template>
@@ -241,9 +240,29 @@ const resetAllBookmarks = () => {
       @toggle-info="showInfoPanel = !showInfoPanel" 
     />
 
+    <div class="md:hidden flex border-b-2 border-black bg-white shrink-0 z-10 relative">
+      <button 
+        class="flex-1 py-2 text-xs font-bold uppercase tracking-widest transition-colors border-r-2 border-black"
+        :class="activeTab === 'search' ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-100'"
+        @click="activeTab = 'search'"
+      >
+        検索結果
+      </button>
+      <button 
+        class="flex-1 py-2 text-xs font-bold uppercase tracking-widest transition-colors"
+        :class="activeTab === 'bookmark' ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-100'"
+        @click="activeTab = 'bookmark'"
+      >
+        ブックマーク
+      </button>
+    </div>
+
     <main class="flex-1 flex overflow-hidden p-4 gap-4 max-w-[1550px] w-full mx-auto relative">
       
-      <div class="w-full md:w-[60%] flex flex-col h-full border-2 border-black bg-white shadow-hard relative">
+      <div 
+        class="w-full md:w-[60%] flex-col h-full border-2 border-black bg-white shadow-hard relative"
+        :class="activeTab === 'search' ? 'flex' : 'hidden md:flex'"
+      >
         <div ref="courseListContainer" class="flex-1 overflow-y-auto p-3 space-y-2 scroll-smooth bg-gray-50">
           <CourseList 
             :courses="paginatedCourses" 
@@ -267,7 +286,10 @@ const resetAllBookmarks = () => {
         />
       </div>
 
-      <div class="hidden md:flex w-[40%] h-full">
+      <div 
+        class="w-full md:w-[40%] h-full"
+        :class="activeTab === 'bookmark' ? 'flex' : 'hidden md:flex'"
+      >
         <BookmarkSidebar 
           :bookmarkGroups="bookmarkGroups" 
           @create-group="createGroup"
