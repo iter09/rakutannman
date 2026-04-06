@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 
 const props = defineProps({
   bookmarkGroups: {
@@ -7,6 +7,21 @@ const props = defineProps({
     required: true
   }
 })
+
+const copiedId = ref(null)
+
+const copyToClipboard = async (text, id) => {
+  try {
+    await navigator.clipboard.writeText(text)
+    copiedId.value = id
+    
+    setTimeout(() => {
+      if (copiedId.value === id) copiedId.value = null
+    }, 1000)
+  } catch (err) {
+    console.error('Failed to copy!', err)
+  }
+}
 
 const emit = defineEmits(['create-group', 'delete-group', 'update-group-name', 'update-group-target', 'remove-course', 'reset-all'])
 
@@ -96,23 +111,35 @@ const totalAllCredits = computed(() => {
               :key="course.id" 
               class="flex items-center justify-between px-2 py-1 bg-entry-bg border border-gray-300 hover:border-black transition-colors gap-2"
             >
-              <div class="flex items-center gap-2 overflow-hidden flex-1 min-w-0">
-                <div class="font-mono font-bold text-[14x] text-black shrink-0">
-                  {{ course.course_number }}
+              <div class="flex items-center gap-2 overflow-hidden flex-1 min-w-30">
+                <div class="flex items-center gap-0">
+                  <div class="font-mono font-bold text-[14x] text-black shrink-0">
+                    {{ course.course_number }}
+                  </div>
+                  
+                  <button 
+                    @click.stop="copyToClipboard(course.course_number, course.id)"
+                    class="text-gray-400 hover:text-black transition-colors flex items-center justify-center rounded-sm hover:bg-gray-200 p-0.5 shrink-0"
+                    :title="copiedId === course.id ? 'コピーしました' : '科目番号をコピー'"
+                  >
+                    <span class="material-symbols-outlined text-[13px]">
+                      {{ copiedId === course.id ? 'check' : 'content_copy' }}
+                    </span>
+                  </button>
                 </div>
                 
                 <a 
                   :href="getSyllabusUrl(course.course_number)" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-[14px] font-bold truncate shrink-1 min-w-0 px-1 -ml-1 rounded-sm transition-colors hover:bg-black hover:text-white cursor-pointer block" 
+                  class="text-[13px] font-bold truncate shrink-1 min-w-0 px-1 -ml-1 rounded-sm transition-colors hover:bg-black hover:text-white cursor-pointer block" 
                   :title="course.title"
                 >
                   {{ course.title }}
                 </a>
               </div>
               
-              <div class="flex items-center gap-0 shrink-0 text-[12px] font-bold text-gray-600 ml-auto">
+              <div class="flex items-center gap-0 text-[12px] font-bold text-gray-600 ml-auto">
                  <span>{{ course.credits }}単位</span>
                  <span v-if="course.display_standard_years">/{{ course.display_standard_years }}年</span>
                  <span v-if="course.display_terms">/{{ course.display_terms }}</span>

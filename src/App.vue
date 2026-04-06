@@ -257,7 +257,7 @@ const resetAllBookmarks = () => {
       </button>
     </div>
 
-    <main class="flex-1 flex overflow-hidden p-4 gap-4 max-w-[1550px] w-full mx-auto relative">
+    <main class="flex-1 flex overflow-hidden p-2 gap-3 max-w-[1550px] w-full mx-auto relative">
       
       <div 
         class="w-full md:w-[60%] flex-col h-full border-2 border-black bg-white shadow-hard relative"

@@ -12,6 +12,21 @@ const props = defineProps({
   }
 })
 
+const copiedId = ref(null)
+
+const copyToClipboard = async (text, id) => {
+  try {
+    await navigator.clipboard.writeText(text)
+    copiedId.value = id
+    
+    setTimeout(() => {
+      if (copiedId.value === id) copiedId.value = null
+    }, 800)
+  } catch (err) {
+    console.error('Failed to copy!', err)
+  }
+}
+
 const emit = defineEmits(['toggle-course'])
 
 const BASE_SYLLABUS_URL = "https://kdb.tsukuba.ac.jp/syllabi/2026/" 
@@ -78,8 +93,20 @@ const isInGroup = (course, groupId) => {
       >
         
         <div class="col-span-6 md:col-span-3 flex flex-col justify-center gap-0.5 overflow-hidden">
-          <div class="font-mono font-bold text-sm text-black leading-tight truncate">
-            {{ course.course_number }}
+          <div class="flex items-center gap-1">
+            <div class="font-mono font-bold text-sm text-black leading-tight truncate">
+              {{ course.course_number }}
+            </div>
+            
+            <button 
+              @click.stop="copyToClipboard(course.course_number, course.id)"
+              class="text-gray-400 hover:text-black transition-colors flex items-center justify-center rounded-sm hover:bg-gray-200 p-0.5 shrink-0"
+              :title="copiedId === course.id ? 'コピーしました' : '科目番号をコピー'"
+            >
+              <span class="material-symbols-outlined text-[13px]">
+                {{ copiedId === course.id ? 'check' : 'content_copy' }}
+              </span>
+            </button>
           </div>
           
           <a 
