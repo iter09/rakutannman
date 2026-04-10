@@ -110,40 +110,54 @@ export function useCourseSearch() {
    * standard_years: Array, // ["1", "2"]
    * terms: Array,          // ["春A", "春B"]
    * periods: Array,        // ["月1", "火2"]
-   * class_formats: Array   // ["対面"]
+   * class_formats: Array,  // ["対面"]
+   * // マイナス検索（除外）用
+   * exclude_standard_years: Array, 
+   * exclude_terms: Array,          
+   * exclude_periods: Array,        
+   * exclude_class_formats: Array   
    * }
    */
   const searchCourses = (filters) => {
     if (allCourses.value.length === 0) return
 
-    // 検索条件変換
+    // テキスト検索条件
     const targetId = filters.course_number ? filters.course_number.toUpperCase() : ''
     const targetTitle = filters.title ? filters.title.toLowerCase() : ''
 
+    // 通常検索のビットマスク
     const maskYear = getBitMask(filters.standard_years, yearMap)
     const maskTerm = getBitMask(filters.terms, termMap)
     const [maskPLow, maskPHigh] = getPeriodMasks(filters.periods)
     const maskFormat = getBitMask(filters.class_formats, formatMap)
 
-    // ループ
+    // マイナス検索のビットマスク
+    const excludeMaskYear = getBitMask(filters.exclude_standard_years, yearMap)
+    const excludeMaskTerm = getBitMask(filters.exclude_terms, termMap)
+    const [excludeMaskPLow, excludeMaskPHigh] = getPeriodMasks(filters.exclude_periods)
+    const excludeMaskFormat = getBitMask(filters.exclude_class_formats, formatMap)
+
+    // ループ処理
     filteredCourses.value = allCourses.value.filter(row => {
       
-      // 科目番号(前方一致)
-      if (targetId && !row[COL_ID].startsWith(targetId)) {
-        return false
-      }
+      // 1. テキスト検索 (前方一致 / 部分一致)
+      if (targetId && !row[COL_ID].startsWith(targetId)) return false
+      if (targetTitle && !row[COL_TITLE].toLowerCase().includes(targetTitle)) return false
 
-      // 科目名(部分一致)大文字小文字区別なし
-      if (targetTitle && !row[COL_TITLE].toLowerCase().includes(targetTitle)) {
-        return false
-      }
+      // 2. マイナス検索
+      if (excludeMaskYear > 0 && (row[COL_BIT_YEAR] & excludeMaskYear) !== 0) return false
+      if (excludeMaskTerm > 0 && (row[COL_BIT_TERM] & excludeMaskTerm) !== 0) return false
+      if (excludeMaskFormat > 0 && (row[COL_BIT_FMT] & excludeMaskFormat) !== 0) return false
+      
+      if (excludeMaskPLow > 0 && (row[COL_BIT_P_LOW] & excludeMaskPLow) !== 0) return false
+      if (excludeMaskPHigh > 0 && (row[COL_BIT_P_HIGH] & excludeMaskPHigh) !== 0) return false
 
-      // ビット演算フィルタリング
+      // 3. 通常検索
       if (maskYear > 0 && (row[COL_BIT_YEAR] & maskYear) === 0) return false
       if (maskTerm > 0 && (row[COL_BIT_TERM] & maskTerm) === 0) return false
       if (maskFormat > 0 && (row[COL_BIT_FMT] & maskFormat) === 0) return false
 
-      // 曜時限 (Low/High)
+      // 曜時限 (Low/High はどちらかでマッチ)
       if (maskPLow > 0 || maskPHigh > 0) {
         const matchLow = (row[COL_BIT_P_LOW] & maskPLow) !== 0
         const matchHigh = (row[COL_BIT_P_HIGH] & maskPHigh) !== 0

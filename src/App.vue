@@ -33,6 +33,11 @@ const filters = reactive({
   class_formats: [],
   course_number: '',
   title: '', 
+
+  exclude_standard_years: [],
+  exclude_terms: [],
+  exclude_periods: [],
+  exclude_class_formats: [],
 })
 
 const currentPage = ref(1)
